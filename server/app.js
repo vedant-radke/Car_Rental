@@ -2,17 +2,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 // const session = require('express-session');
 // const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
+// const path = require('path');
+
+
+// Configurations
+dotenv.config();
 
 const app = express();
 
-// main().catch(err => console.log(err));
+main().catch(err => console.log(err));
 
-// async function main() {
-//   await mongoose.connect('mongodb://127.0.0.1:27017/pratice');
+async function main() {
+  await mongoose.connect(process.env.url);
 
  
-//   console.log('connected');
-// }
+  console.log('connected');
+}
 // app.use(express.urlencoded({ extended: true }));
 // app.use(express.json());
 // app.use(cookieParser());
