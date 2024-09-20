@@ -1,0 +1,60 @@
+import mongoose from "mongoose";
+
+
+const bookingSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  car: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Car",
+    required: true,
+  },
+  rentalStartDate: {
+    type: Date,
+    required: true,
+  },
+  rentalEndDate: {
+    type: Date,
+    required: true,
+  },
+  totalPrice: {
+    type: Number,
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ["booked", "ongoing", "completed", "cancelled"],
+    default: "booked", // Default status is "booked"
+  },
+  paymentStatus: {
+    type: String,
+    enum: ["pending", "paid", "failed"],
+    default: "pending",
+  },
+  paymentMethod: {
+    type: String,
+    enum: ["credit_card", "debit_card", "paypal", "cash"],
+    required: true,
+  },
+  transactionId: {
+    type: String,
+    required: function() {
+      return this.paymentStatus === "paid";
+    },
+  },
+  rentalLocation: {
+    pickupLocation: {
+      type: String,
+      required: true,
+    },
+    dropoffLocation: {
+      type: String,
+      required: true,
+    }
+  },
+}, { timestamps: true });
+
+module.exports = mongoose.model("Booking", bookingSchema);
