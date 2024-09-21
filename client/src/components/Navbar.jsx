@@ -6,8 +6,7 @@ import { API_END_POINT } from "../utils/constants";
 import toast from "react-hot-toast";
 import { setUser } from "../redux/userSlice";
 import axios from "axios";
-import mainLogo from '../assets/mainLogo.png';
-
+import mainLogo from "../assets/mainLogo.png";
 
 const Navbar = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -35,11 +34,17 @@ const Navbar = () => {
     }
   };
 
+  // getting back to home page on clicking logo
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <nav className="bg-slate-900 p-4 absolute z-10 w-[100vw]">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <img
+          onClick={handleLogoClick}
           alt="Your Company"
           src={mainLogo}
           className="h-10"
@@ -47,29 +52,48 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div className="hidden md:flex space-x-4 w-[70%] justify-evenly ">
-          <a href="#" className="text-white hover:text-gray-300">
+          <div
+            onClick={() => {
+              if (!user) {
+                localStorage.setItem("redirectPath", "/userdash");
+                navigate("/login");
+                return;
+              }
+              navigate("/userdash");
+            }}
+            className="text-white hover:text-gray-300 cursor-pointer"
+          >
             Dashboard
-          </a>
-          <a href="#" className="text-gray-300 hover:text-white">
+          </div>
+          <div
+            onClick={() => navigate("/team")}
+            className="text-gray-300 hover:text-white cursor-pointer"
+          >
             Team
-          </a>
-          <a href="#" className="text-gray-300 hover:text-white">
+          </div>
+          <div
+            onClick={() => navigate("/projects")}
+            className="text-gray-300 hover:text-white cursor-pointer"
+          >
             Projects
-          </a>
-          <a href="#" className="text-gray-300 hover:text-white">
+          </div>
+          <div
+            onClick={() => navigate("/calendar")}
+            className="text-gray-300 hover:text-white cursor-pointer"
+          >
             Calendar
-          </a>
+          </div>
         </div>
 
         <div className="flex items-center gap-10">
           <div className="flex gap-2">
-            {(user) && <IoIosArrowDropdown size="24px" color="white" /> }
+            {user && <IoIosArrowDropdown size="24px" color="white" />}
             <span className="text-white">{user?.fullname}</span>
           </div>
 
           <button
             type="button"
-            onClick={user ? ()=>logoutHandler() : () => handleLogin()}
+            onClick={user ? () => logoutHandler() : () => handleLogin()}
             className="bg-blue-500 text-white px-4 py-2 rounded"
           >
             {user ? "Signout" : "Signin"}

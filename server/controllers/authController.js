@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 export const Register = async (req, res) => {
   try {
     const { fullname, email, password, role } = req.body;
+    
 
     // Validate required fields
     if (!fullname || !email || !password || !role) {

@@ -26,10 +26,7 @@ const HomeForm = () => {
           <form>
             {/* Pickup Address */}
             <div className="mb-4">
-              <label
-                className="block  font-bold mb-2"
-                htmlFor="pickup-address"
-              >
+              <label className="block  font-bold mb-2" htmlFor="pickup-address">
                 Pickup Address
               </label>
               <input

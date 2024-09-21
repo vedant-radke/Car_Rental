@@ -1,70 +1,91 @@
 import mongoose from "mongoose";
 
-const carSchema = new mongoose.Schema({
+const carSchema = new mongoose.Schema(
+  {
     brand: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     model: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     year: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     registrationNumber: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     type: {
-        type: String,
-        required: true,
+      type: String,
+      enum: ["sedan", "suv", "hatchback"],
+      required: true,
     },
     color: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     rentalPricePerDay: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     fuelType: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     transmission: {
-        type: String,
-        required: true,
+      //manual or auto
+      type: String,
+      enum: ["manual", "automatic"],
+      required: true,
     },
     seats: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
-    availability: {
-        type: Boolean,
-        default: true,
+    // availability: {
+    //     type: Boolean,
+    //     default: true,
+    // },
+    status: {
+      type: String,
+      enum: ["available", "booked", "in service"],
+      default: "available",
     },
     mileage: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     description: {
-        type: String,
+      type: String,
     },
     images: {
-        type: [String],
+      type: [String],
     },
+    // images: {
+    //     type: [String],
+    //     validate: {
+    //       validator: function(arr) {
+    //         return arr.every(url => /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/.test(url)); // Basic URL validation
+    //       },
+    //       message: 'Invalid image URL format.'
+    //     }
+    //   },
+
     currentLocation: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     ownerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
 export const Car = mongoose.model("Car", carSchema);
