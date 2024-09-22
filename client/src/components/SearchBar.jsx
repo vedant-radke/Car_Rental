@@ -1,6 +1,5 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import carSlice from "../redux/carSlice";
+// import carSlice from "../redux/carSlice";
 
 const SearchBar = () => {
   const location = useSelector((state) => state.car.location);

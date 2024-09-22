@@ -5,7 +5,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomeForm from "./components/HomeForm";
 import UserDash from "./components/UserDash";
 import { Login } from "./components/Login";
-import Sidebar from "./components/Sidebar";
 import DisplayCars from "./components/DisplayCars";
 
 function App() {

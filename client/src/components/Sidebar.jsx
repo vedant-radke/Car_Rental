@@ -1,21 +1,23 @@
-import React from "react";
-import Navbar from "./Navbar";
+import mainLogo from "../assets/mainLogo.png";
+import { useNavigate } from "react-router";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <div className="flex fixed top-0 left-0 z-9">
       <div className="flex flex-col p-4 bg-gray-900 text-white w-60 min-h-screen">
-        <a href="/" className="flex items-center mb-6">
-          <svg
-            className="h-8 w-8 text-gray-300"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {/* Your logo SVG here */}
-            <circle cx="16" cy="16" r="16" />
-          </svg>
-          <span className="text-xl font-bold ml-2">Sidebar</span>
-        </a>
+      <img
+          onClick={handleLogoClick}
+          alt="Your Company"
+          src={mainLogo}
+          className="h-10"
+        />
+      
         <hr className="border-gray-700 mb-4" />
         <ul className="flex flex-col space-y-2">
           <li>

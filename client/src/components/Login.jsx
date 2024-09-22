@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { API_END_POINT } from "../utils/constants.js";
 import axios from "axios";
@@ -8,10 +8,11 @@ import { setUser } from "../redux/userSlice.js";
 
 export const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [fullname, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
   const [role, setRole] = useState("user");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,7 +34,6 @@ export const Login = () => {
           withCredentials: true,
         });
 
-        console.log(res);
 
         if (res.data.success) {
           toast.success(res.data.message);
@@ -75,6 +75,13 @@ export const Login = () => {
     setEmail("");
     setPassword("");
     setRole("");
+  };
+
+  const handleMobileNoChange = (value) => {
+    // Only allow numeric input with a max length of 10 characters
+    if (/^\d{0,10}$/.test(value)) {
+      setMobileNo(value);
+    }
   };
 
   return (
@@ -136,6 +143,26 @@ export const Login = () => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
+
+            {!isLogin && (
+              <div className="mb-4">
+                <label className="block font-bold mb-2" htmlFor="mobile-no">
+                  Mobile No.
+                </label>
+                <input
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  type="text"
+                  id="mobile-no"
+                  value={mobileNo}
+                  onChange={(e) => handleMobileNoChange(e.target.value)}
+                  required
+                  pattern="[0-9]{10}"
+                  title="Please enter a valid 10-digit mobile number"
+                  maxLength="10"
+                />
+              </div>
+            )}
+
             {!isLogin && (
               <div className="mb-6">
                 <label
