@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoute from "./routes/userRoute.js";
 import adminRoute from "./routes/adminRoute.js" 
+import carOwnerRoute from "./routes/carOwnerRoute.js"
 import cors from "cors";
 import cookieParser from "cookie-parser"; 
 
@@ -24,6 +25,7 @@ app.use(cors(corsOptions));
 // Routes
 app.use("/api/user", userRoute);
 app.use("/api/admin", adminRoute);
+app.use("/api/carOwner", carOwnerRoute);
 
 // Database connection
 const connectToDatabase = async () => {
@@ -42,4 +44,7 @@ connectToDatabase().then(() => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
-});
+})
+
+
+//useless statement

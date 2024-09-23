@@ -5,13 +5,13 @@ import jwt from "jsonwebtoken";
 // Sign-Up (Register)
 export const Register = async (req, res) => {
   try {
-    const { fullname, email, password, role } = req.body;
+    const { fullname, email, password, mobileNo, role } = req.body;
     
 
     // Validate required fields
-    if (!fullname || !email || !password || !role) {
+    if (!fullname || !email || !password || !role || !mobileNo) {
       return res.status(400).json({
-        message: "Please provide all required fields: fullname, email, password, and role.",
+        message: "Please provide all required fields: fullname, email, password,mobile No. and role.",
         success: false,
       });
     }
@@ -42,6 +42,7 @@ export const Register = async (req, res) => {
       fullname,
       email,
       password: hashedPassword,
+      mobileNo,
       role, // Save the user role (either 'user' or 'owner')
     });
 

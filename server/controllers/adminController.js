@@ -59,6 +59,28 @@ export const getAllCars = async (req, res) => {
   }
 }
 
+// getCar with particular registration Number
+export const getCar = async (req, res) => {
+  try {
+    const { regNumber } = req.body; 
+
+    if (!regNumber) {
+      return res.status(400).json({ message: "Registration number is required." });
+    }
+
+    const car = await Car.findOne({ regNumber });
+
+    if (!car) {
+      return res.status(200).json({ message: "No car with this registration No. listed." });
+    }
+
+    res.status(200).json(car);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error. Unable to fetch car." });
+  }
+};
+
 
 // Add a new car to the platform
 export const addCar = async (req, res) => {
@@ -67,7 +89,7 @@ export const addCar = async (req, res) => {
       brand,
       model,
       year,
-      registrationNumber,
+      regNumber,
       type,
       color,
       rentalPricePerDay,
@@ -84,7 +106,7 @@ export const addCar = async (req, res) => {
     // You might also extract the user ID from req.user if you have user authentication.
     const ownerId = req.user._id;
 
-    const isCarExist = await Car.findOne({ registrationNumber });
+    const isCarExist = await Car.findOne({ regNumber });
     if (isCarExist) {
       return res.status(400).json({ message: 'Car with this registration number already exists' });
     }
@@ -93,7 +115,7 @@ export const addCar = async (req, res) => {
       brand,
       model,
       year,
-      registrationNumber,
+      regNumber,
       type,
       color,
       rentalPricePerDay,
@@ -126,19 +148,25 @@ export const addCar = async (req, res) => {
 // deleteCar(carId): Remove a car from the platform.
 export const deleteCar = async (req, res) => {
   try {
-    const car_id = req.params.id;
+    const { regNumber } = req.body;
 
-    const car = await Car.findById(car_id);
-    if (!car) {
-      return res.status(404).json({ message: "car not found" });
+    if (!regNumber) {
+      return res.status(400).json({ message: "Registration number is required." });
     }
 
-    await User.findByIdAndDelete(car_id);
-    res.status(200).json({ message: "Car has deleted successfully" });
+    const deletedCar = await Car.deleteOne({ regNumber });
+
+    if (deletedCar.deletedCount === 0) { //deleteCount = tells count of deleted entries
+      return res.status(404).json({ message: "Car not found." });
+    }
+
+    res.status(200).json({ message: "Car has been deleted successfully." });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Server error. Unable to delete the car." });
   }
 };
+
 
 // View Reports:
 // viewBookingReport(): View statistics and reports related to car bookings.

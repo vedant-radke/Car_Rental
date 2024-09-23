@@ -1,4 +1,3 @@
-import React from "react";
 import carImg from "../assets/carImg.jpeg"
 
 const Card = () => {

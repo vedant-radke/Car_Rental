@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {setLocation,setStartDateInStore,setDropDateInStore} from "../redux/carSlice";
+import {setLocation,setStartDateInStore,setDropDateInStore,} from "../redux/carSlice";
 
 const HomeForm = () => {
   const [duration, setDuration] = useState("");
-  const [selectedLoc, setSelectedLoc] = useState("");
   const [startDate, setStartDate] = useState("");
   const [dropDate, setDropDate] = useState("");
 
@@ -22,8 +21,12 @@ const HomeForm = () => {
 
       if (diffInMs >= 0) {
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-        const diffInHours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const diffInMinutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+        const diffInHours = Math.floor(
+          (diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const diffInMinutes = Math.floor(
+          (diffInMs % (1000 * 60 * 60)) / (1000 * 60)
+        );
 
         return diffInDays > 0
           ? `${diffInDays} days and ${diffInMinutes} mins`
@@ -55,6 +58,8 @@ const HomeForm = () => {
     dispatch(setLocation(e.target.value));
   };
 
+
+
   return (
     <>
       <Navbar />
@@ -68,9 +73,10 @@ const HomeForm = () => {
 
         {/* Form */}
         <div className="relative z-10 border-2 border-white p-8 rounded-lg shadow-lg max-w-md w-full mt-11 ml-[25%] bg-transparent text-white">
-          <h2 className="text-2xl font-bold text-center mb-6">Car Rental Form</h2>
+          <h2 className="text-2xl font-bold text-center mb-6">
+            Car Rental Form
+          </h2>
           <form onSubmit={handleBookNow}>
-
             {/* Pickup Address */}
             <div className="mb-4">
               <label className="block font-bold mb-2" htmlFor="pickup-address">
@@ -81,11 +87,24 @@ const HomeForm = () => {
                 id="pickup-address"
                 defaultValue=""
                 onChange={handleLocationChange}
-                required 
+                required
               >
-                <option value="" disabled>Select Pickup City</option>
-                {["Mumbai", "Delhi", "Bangalore", "Chennai", "Kolkata", "Hyderabad", "Pune", "Ahmedabad"].map(city => (
-                  <option key={city} value={city}>{city}</option>
+                <option value="" disabled>
+                  Select Pickup City
+                </option>
+                {[
+                  "Mumbai",
+                  "Delhi",
+                  "Bangalore",
+                  "Chennai",
+                  "Kolkata",
+                  "Hyderabad",
+                  "Pune",
+                  "Ahmedabad",
+                ].map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
                 ))}
               </select>
             </div>
@@ -119,6 +138,8 @@ const HomeForm = () => {
                 required
               />
             </div>
+
+            
 
             {/* Duration */}
             <div className="mb-4">
