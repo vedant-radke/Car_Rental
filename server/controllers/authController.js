@@ -10,8 +10,13 @@ export const Register = async (req, res) => {
 
     // Validate required fields
     if (!fullname || !email || !password || !role || !mobileNo) {
+
+      console.log("role ",role);
+      console.log("mobileNo ",mobileNo);
+      
+      
       return res.status(400).json({
-        message: "Please provide all required fields: fullname, email, password,mobile No. and role.",
+        message: "Please provide all required fields",
         success: false,
       });
     }
@@ -29,7 +34,7 @@ export const Register = async (req, res) => {
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(409).json({
-        message: "This email is already in use. Please use a different email address.",
+        message: "User with this email already exists.",
         success: false,
       });
     }
@@ -46,7 +51,7 @@ export const Register = async (req, res) => {
       role, // Save the user role (either 'user' or 'owner')
     });
 
-    return res.status(201).json({
+    return res.status(200).json({
       message: "Account created successfully.",
       success: true,
       user: newUser,
@@ -93,8 +98,15 @@ export const Login = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "10m",
     });
+
+    const decoded = jwt.decode(token);
+    // console.log(decoded);
+    const tokenExpiry = decoded.exp;
+   
+    
+    
 
     return res.status(200)
       .cookie("token", token, { httpOnly: true })
@@ -105,7 +117,9 @@ export const Login = async (req, res) => {
           id: user._id,
           fullname: user.fullname,
           email: user.email,
-          role: user.role, // Include the role in the response
+          role: user.role, 
+          token: token,
+          tokenExpiry : tokenExpiry,
         },
       });
   } catch (error) {
@@ -119,7 +133,6 @@ export const Login = async (req, res) => {
 
 // Logout
 export const Logout = (req, res) => {
-  // Clear the token cookie and send the response
   return res
     .status(200)
     .cookie("token", "", { expires: new Date(0), httpOnly: true })

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDropdown } from "react-icons/io";
@@ -9,16 +9,12 @@ import axios from "axios";
 import mainLogo from "../assets/mainLogo.png";
 
 const Navbar = () => {
-  const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const user = useSelector((state) => state.app.user);
 
   const handleLogin = () => {
-    if (!isLogin) {
-      navigate("/login");
-    }
+    navigate("/login");
   };
 
   const logoutHandler = async () => {
@@ -28,13 +24,25 @@ const Navbar = () => {
         toast.success(res.data.message);
       }
       dispatch(setUser(null));
+      localStorage.removeItem("user"); // Remove user on logout
+      
       navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
 
-  // getting back to home page on clicking logo
+  // Handle navigation to dashboard or login
+  const handleDashboardClick = () => {
+    if (!user) {
+      localStorage.setItem("redirectPath", "/userdash");
+      handleLogin();
+    } else {
+      navigate("/userdash");
+    }
+  };
+
+  // Getting back to home page on clicking logo
   const handleLogoClick = () => {
     navigate("/");
   };
@@ -47,26 +55,19 @@ const Navbar = () => {
           onClick={handleLogoClick}
           alt="Your Company"
           src={mainLogo}
-          className="h-10"
+          className="h-10 cursor-pointer"
         />
 
         {/* Navigation Links */}
         <div className="hidden md:flex space-x-4 w-[70%] justify-evenly ">
           <div
-            onClick={() => {
-              if (!user) {
-                localStorage.setItem("redirectPath", "/userdash");
-                navigate("/login");
-                return;
-              }
-              navigate("/userdash");
-            }}
+            onClick={handleDashboardClick}
             className="text-white hover:text-gray-300 cursor-pointer"
           >
             Dashboard
           </div>
           <div
-            onClick={() => navigate("/UserProfile")}
+            onClick={() => navigate("/userprofile")}
             className="text-gray-300 hover:text-white cursor-pointer"
           >
             Team
@@ -106,7 +107,7 @@ const Navbar = () => {
 
           <button
             type="button"
-            onClick={user ? () => logoutHandler() : () => handleLogin()}
+            onClick={user ? logoutHandler : handleLogin}
             className="bg-blue-500 text-white px-4 py-2 rounded"
           >
             {user ? "Signout" : "Signin"}
