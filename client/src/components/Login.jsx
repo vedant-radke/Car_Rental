@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import toast from "react-hot-toast";
 import { API_END_POINT } from "../utils/constants.js";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { setUser } from "../redux/userSlice.js";
 
 export const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [fullname, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

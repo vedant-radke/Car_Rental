@@ -66,7 +66,7 @@ const Navbar = () => {
             Dashboard
           </div>
           <div
-            onClick={() => navigate("/team")}
+            onClick={() => navigate("/UserProfile")}
             className="text-gray-300 hover:text-white cursor-pointer"
           >
             Team
