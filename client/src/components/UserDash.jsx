@@ -1,6 +1,7 @@
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import UserProfile from "./UserProfile";
+import Usersidebar from "./Usersidebar";
 // import UserInfo from "./UserInfo";
 
 const UserDash = () => {
@@ -8,7 +9,8 @@ const UserDash = () => {
     <div>
       
       <div>
-        <Sidebar/>
+        {/* <Sidebar/> */}
+        <Usersidebar />
         <UserProfile/>
       </div>
       {/* <div>

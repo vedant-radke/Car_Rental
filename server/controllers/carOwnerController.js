@@ -117,6 +117,21 @@ export const addCar = async (req, res) => {
   }
 };
 
+// export const addCar = async (req, res) => {
+//   try {
+//     const newCar = new Car(req.body);
+//     await newCar.save();
+//     res.status(201).json({ success: true, message: 'Car added successfully' });
+//   } catch (error) {
+//     if (error.code === 11000) {
+//       res.status(400).json({ success: false, message: 'Car with this registration number already exists' });
+//     } else {
+//       res.status(500).json({ success: false, message: 'Server error' });
+//     }
+//   }
+// };
+
+
 
 
 // removeCar(regNumber): Allow the owner to remove cars from the platform.

@@ -2,6 +2,7 @@ import "./App.css";
 // import Body from "./components/Body";
 import { Toaster } from "react-hot-toast";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import HomeForm from "./components/HomeForm";
 // import Navbar from "./components/Navbar";
 import UserDash from "./components/UserDash";
@@ -10,6 +11,9 @@ import { Login } from "./components/Login";
 import DisplayCars from "./components/DisplayCars";
 
 import UserProfile from "./components/UserProfile";
+
+import CarForm from "./components/CarForm";
+import Ownerdashboard from "./components/Ownerdashboard";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -33,6 +37,14 @@ function App() {
       path: "/userprofile",
       element: <UserProfile />,
     },
+    {
+      path: "/CarForm",
+      element: <CarForm />,
+    },
+    {
+      path: "/Ownerdashboard",
+      element: <Ownerdashboard />,
+    },
   ]);
 
   return (
@@ -41,6 +53,7 @@ function App() {
       {/* <Body /> */}
       <Toaster />
     </>
+    
   );
 }
 

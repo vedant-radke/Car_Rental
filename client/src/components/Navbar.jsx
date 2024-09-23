@@ -72,10 +72,23 @@ const Navbar = () => {
             Team
           </div>
           <div
-            onClick={() => navigate("/projects")}
-            className="text-gray-300 hover:text-white cursor-pointer"
-          >
-            Projects
+              onClick={() => {
+                if (!user) {
+                  localStorage.setItem("redirectPath", "/Ownerdashboard");
+                  navigate("/login");
+                  return;
+                }
+
+                if (user.role !== 'carOwner') {
+                  alert("You do not have permission to access this page.");
+                  return;
+                }
+
+                navigate("/Ownerdashboard");
+              }}
+              className="text-white hover:text-gray-300 cursor-pointer"
+            >
+              CarOwner
           </div>
           <div
             onClick={() => navigate("/calendar")}
