@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState, useRef } from "react";
 import toast from "react-hot-toast";
 import { API_END_POINT } from "../utils/constants.js";
 import axios from "axios";
@@ -8,13 +8,12 @@ import { setUser } from "../redux/userSlice.js";
 
 export const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  const [fullname, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
-  const [role, setRole] = useState("user");
+
+  const mobileNoRef = useRef();
+  const roleRef = useRef("user");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,66 +21,48 @@ export const Login = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  const getInputData = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (isLogin) {
-      const user = { email, password };
-      try {
-        const res = await axios.post(`${API_END_POINT}/login`, user, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        });
+    const mobileNo = mobileNoRef.current?.value;
+    const selectedRole = roleRef.current;
 
-
-        if (res.data.success) {
-          toast.success(res.data.message);
-          dispatch(setUser(res.data.user));
-
-          // Check for redirect path
-          const redirectPath = localStorage.getItem("redirectPath");
-          if (redirectPath) {
-            localStorage.removeItem("redirectPath"); // Clean up
-            navigate(redirectPath); // Navigate to intended path
-          } else {
-            navigate("/"); // Default to home if no intended path
-          }
-        }
-      } catch (error) {
-        toast.error(error.response?.data?.message || "Login failed");
-      }
-    } else {
-      const user = { fullname, email, password, role };
-
-      try {
-        const res = await axios.post(`${API_END_POINT}/register`, user, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        });
-
-        if (res.data.success) {
-          toast.success(res.data.message);
-          setIsLogin(true);
-        }
-      } catch (error) {
-        console.error("Error response:", error.response);
-        toast.error(error.response?.data?.message || "Registration failed");
-      }
+    if (!isLogin && (!mobileNo || !/^\d{10}$/.test(mobileNo))) {
+      toast.error("Please enter a valid 10-digit mobile number.");
+      return;
     }
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setRole("");
-  };
 
-  const handleMobileNoChange = (value) => {
-    // Only allow numeric input with a max length of 10 characters
-    if (/^\d{0,10}$/.test(value)) {
-      setMobileNo(value);
+    const user = isLogin
+      ? { email, password }
+      : { fullname, email, password, role: selectedRole, mobileNo };
+
+    const url = `${API_END_POINT}/${isLogin ? "login" : "register"}`;
+    const successMessage = isLogin ? "Login successful!" : "Registration successful!";
+
+    try {
+      const res = await axios.post(url, user, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+
+      if (res.data.success) {
+        toast.success(successMessage);
+        if (isLogin) {
+          dispatch(setUser(res.data.user));
+          const redirectPath = localStorage.getItem("redirectPath");
+          navigate(redirectPath || "/");
+        } else {
+          setIsLogin(true); 
+        }
+        setFullname("");
+        setEmail("");
+        setPassword("");
+        if (mobileNoRef.current) {
+          mobileNoRef.current.value = ""; 
+        }
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || `${isLogin ? "Login" : "Registration"} failed`);
     }
   };
 
@@ -93,30 +74,24 @@ export const Login = () => {
           <h2 className="text-2xl font-bold text-center mb-7 text-gray-800">
             {isLogin ? "Sign in to your account" : "Create New Account"}
           </h2>
-          <form onSubmit={getInputData}>
+          <form onSubmit={handleSubmit}>
             {!isLogin && (
               <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="fullname"
-                >
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullname">
                   Fullname
                 </label>
                 <input
                   id="fullname"
                   type="text"
                   value={fullname}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => setFullname(e.target.value)}
                   placeholder="Enter your fullname"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
             )}
             <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="email"
-              >
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                 Email Address
               </label>
               <input
@@ -129,10 +104,7 @@ export const Login = () => {
               />
             </div>
             <div className="mb-6">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="password"
-              >
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                 Password
               </label>
               <input
@@ -147,18 +119,15 @@ export const Login = () => {
 
             {!isLogin && (
               <div className="mb-4">
-                <label className="block font-bold mb-2" htmlFor="mobile-no">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="mobile-no">
                   Mobile No.
                 </label>
                 <input
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  ref={mobileNoRef}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   type="text"
                   id="mobile-no"
-                  value={mobileNo}
-                  onChange={(e) => handleMobileNoChange(e.target.value)}
-                  required
-                  pattern="[0-9]{10}"
-                  title="Please enter a valid 10-digit mobile number"
+                  placeholder="Enter your mobile number"
                   maxLength="10"
                 />
               </div>
@@ -166,44 +135,47 @@ export const Login = () => {
 
             {!isLogin && (
               <div className="mb-6">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="role"
-                >
-                  Role
-                </label>
-                <select
-                  id="role"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  <option value="user">User</option>
-                  <option value="carOwner">Car Owner</option>
-                </select>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Role</label>
+                <div className="flex items-center">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="user"
+                      defaultChecked
+                      onChange={() => (roleRef.current = "user")}
+                      className="form-radio text-indigo-600"
+                    />
+                    <span className="ml-2">User</span>
+                  </label>
+                  <label className="inline-flex items-center ml-6">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="carOwner"
+                      onChange={() => (roleRef.current = "carOwner")}
+                      className="form-radio text-indigo-600"
+                    />
+                    <span className="ml-2">Car Owner</span>
+                  </label>
+                </div>
               </div>
             )}
 
-            <div className="flex items-center justify-between mb-4">
-              <button
-                type="submit"
-                className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md font-bold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                {isLogin ? "Sign In" : "Sign Up"}
-              </button>
-            </div>
-            <div className="text-center flex justify-between">
+            <button
+              type="submit"
+              className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md font-bold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              {isLogin ? "Sign In" : "Sign Up"}
+            </button>
+            <div className="text-center mt-4 flex justify-between">
               <span
                 className="mr-5 cursor-pointer text-sm text-indigo-500 hover:text-indigo-700"
                 onClick={toggleLoginMode}
               >
                 {isLogin ? "Sign Up" : "Sign In"}
               </span>
-
-              <a
-                href="#"
-                className="text-sm text-indigo-500 hover:text-indigo-700"
-              >
+              <a href="#" className="text-sm text-indigo-500 hover:text-indigo-700">
                 Forgot your password?
               </a>
             </div>

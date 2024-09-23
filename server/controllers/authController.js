@@ -10,8 +10,13 @@ export const Register = async (req, res) => {
 
     // Validate required fields
     if (!fullname || !email || !password || !role || !mobileNo) {
+
+      console.log("role ",role);
+      console.log("mobileNo ",mobileNo);
+      
+      
       return res.status(400).json({
-        message: "Please provide all required fields: fullname, email, password,mobile No. and role.",
+        message: "Please provide all required fields",
         success: false,
       });
     }
@@ -29,7 +34,7 @@ export const Register = async (req, res) => {
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(409).json({
-        message: "This email is already in use. Please use a different email address.",
+        message: "User with this email already exists.",
         success: false,
       });
     }
@@ -46,7 +51,7 @@ export const Register = async (req, res) => {
       role, // Save the user role (either 'user' or 'owner')
     });
 
-    return res.status(201).json({
+    return res.status(200).json({
       message: "Account created successfully.",
       success: true,
       user: newUser,
