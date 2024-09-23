@@ -98,8 +98,15 @@ export const Login = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "10m",
     });
+
+    const decoded = jwt.decode(token);
+    // console.log(decoded);
+    const tokenExpiry = decoded.exp;
+   
+    
+    
 
     return res.status(200)
       .cookie("token", token, { httpOnly: true })
@@ -110,7 +117,9 @@ export const Login = async (req, res) => {
           id: user._id,
           fullname: user.fullname,
           email: user.email,
-          role: user.role, // Include the role in the response
+          role: user.role, 
+          token: token,
+          tokenExpiry : tokenExpiry,
         },
       });
   } catch (error) {
@@ -124,7 +133,6 @@ export const Login = async (req, res) => {
 
 // Logout
 export const Logout = (req, res) => {
-  // Clear the token cookie and send the response
   return res
     .status(200)
     .cookie("token", "", { expires: new Date(0), httpOnly: true })

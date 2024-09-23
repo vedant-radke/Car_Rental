@@ -48,6 +48,11 @@ export const Login = () => {
       if (res.data.success) {
         toast.success(successMessage);
         if (isLogin) {
+          // console.log(">>>>",res.data.user);
+          
+          // localStorage.setItem("token", res.data.user.token);
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+          // localStorage.setItem("tokenExpiry", res.data.user.tokenExpiry);
           dispatch(setUser(res.data.user));
           const redirectPath = localStorage.getItem("redirectPath");
           navigate(redirectPath || "/");
