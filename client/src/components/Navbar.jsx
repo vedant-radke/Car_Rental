@@ -25,6 +25,7 @@ const Navbar = () => {
       }
       dispatch(setUser(null));
       localStorage.removeItem("user"); // Remove user on logout
+      localStorage.removeItem("redirectPath"); // Remove user on logout
       
       navigate("/");
     } catch (error) {
@@ -67,10 +68,26 @@ const Navbar = () => {
             Dashboard
           </div>
           <div
-            onClick={() => navigate("/userprofile")}
-            className="text-gray-300 hover:text-white cursor-pointer"
-          >
-            Team
+              onClick={() => {
+                if (!user) {
+                  localStorage.setItem("redirectPath", "/admindash");
+                  // navigate("/login");
+                  handleLogin()
+        
+                }else{
+                  navigate("/login");
+                }
+
+                if (user.role !== 'admin') {
+                  alert("You do not have permission to access this page.");
+                  return;
+                }
+
+                navigate("/admindash");
+              }}
+              className="text-white hover:text-gray-300 cursor-pointer"
+            >
+              Admin
           </div>
           <div
               onClick={() => {

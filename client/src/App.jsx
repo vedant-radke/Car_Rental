@@ -13,6 +13,7 @@ import { setUser } from "./redux/userSlice"; // Adjust path as needed
 
 import CarForm from "./components/CarForm";
 import Ownerdashboard from "./components/Ownerdashboard";
+import AdminDash from "./components/AdminDash";
 
 function App() {
   const dispatch = useDispatch();
@@ -62,6 +63,10 @@ function App() {
     {
       path: "/Ownerdashboard",
       element: <Ownerdashboard />,
+    },
+    {
+      path: "/admindash",
+      element: <AdminDash />,
     },
   ]);
 

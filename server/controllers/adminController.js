@@ -13,6 +13,29 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
+// getUser: Fetch a user by email
+export const getUser = async (req, res) => {
+  try {
+    const { email } = req.query; // Using query params to fetch the email
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const user = await User.findOne({ email }).select("-password"); // Exclude password from the result
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user); // Send the user data as response
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error. Unable to fetch the user" });
+  }
+};
+
+
 // Update a user role
 export const changeUserRole = async (req, res) => {
   try {
@@ -34,19 +57,20 @@ export const changeUserRole = async (req, res) => {
 // deleteUser(userId): Remove a user from the platform.
 export const deleteUser = async (req, res) => {
   try {
-    const user_id = req.params.id;
+    const { email } = req.body;
 
-    const user = await User.findById(user_id);
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    await User.findByIdAndDelete(user_id);
-    res.status(200).json({ message: "User has deleted successfully" });
+    await User.findByIdAndDelete(user._id); // Use the user's ID for deletion
+    res.status(200).json({ message: "User has been deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Manage Cars:
 // getAllCars(): Fetch details of all cars listed on the platform.
@@ -103,7 +127,6 @@ export const addCar = async (req, res) => {
       currentLocation,
     } = req.body;
 
-    // You might also extract the user ID from req.user if you have user authentication.
     const ownerId = req.user._id;
 
     const isCarExist = await Car.findOne({ regNumber });
