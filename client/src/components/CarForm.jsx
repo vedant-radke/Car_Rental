@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { API_END_POINT_CarOwner } from "../utils/constants";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const CarForm = () => {
   const [formData, setFormData] = useState({
@@ -61,13 +62,14 @@ const CarForm = () => {
         }
       );
 
-      if (res.data.success) {
+      // if (res.data.success) {
         // Show success message
-        toast.success(res.data.message);
-
+        toast.success("Car added successfully!");
+        // toast.success(res.data.message);
+console.log(res.data.message);
         // Navigate back to the car list or home
-        // navigate("/cars");
-      }
+        navigate("/Ownerdashboard");
+      // }
     } catch (error) {
     //   Handle the error
       toast.error("Error adding car: " + error.response?.data?.message || error.message);
