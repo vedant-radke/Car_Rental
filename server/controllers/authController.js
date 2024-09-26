@@ -10,7 +10,6 @@ export const Register = async (req, res) => {
   try {
     const { fullname, email, password, mobileNo, role } = req.body;
 
-    // Validate required fields
     if (!fullname || !email || !password || !role || !mobileNo) {
       return res.status(400).json({
         message: "Please provide all required fields",
@@ -18,16 +17,15 @@ export const Register = async (req, res) => {
       });
     }
 
-    // Validate password format
+    // password validation
     if (!passwordPattern.test(password)) {
       return res.status(400).json({
         message:
-          "Password must be at least 4 characters long and contain at least one digit, one lowercase, and one uppercase letter.",
+          "Password must have atleast 4 characters, atleast one digit, one lowercase, and one uppercase letter.",
         success: false,
       });
     }
 
-    // Check if email is already in use
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(409).json({
@@ -36,16 +34,14 @@ export const Register = async (req, res) => {
       });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user
     const newUser = await User.create({
       fullname,
       email,
       password: hashedPassword,
       mobileNo,
-      role, // Save the user role (either 'user' or 'owner')
+      role, 
     });
 
     return res.status(200).json({
@@ -62,12 +58,10 @@ export const Register = async (req, res) => {
   }
 };
 
-// Login
 export const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate required fields
     if (!email || !password) {
       return res.status(400).json({
         message: "Please provide both email and password.",
@@ -75,7 +69,6 @@ export const Login = async (req, res) => {
       });
     }
 
-    // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({
@@ -84,7 +77,6 @@ export const Login = async (req, res) => {
       });
     }
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({
@@ -93,7 +85,6 @@ export const Login = async (req, res) => {
       });
     }
 
-    // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "1h",
     });

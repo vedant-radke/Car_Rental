@@ -57,6 +57,21 @@
     .review p {
       margin: 5px 0;
     }
+
+    /* Back Button */
+    .back-button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+
+    .back-button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
@@ -65,7 +80,6 @@
   <h2>Leave a Review</h2>
 
   <form class="review-form" onsubmit="addReview(event)">
-    <input type="text" id="reviewerName" placeholder="Your Name" required>
     <textarea id="reviewContent" rows="4" placeholder="Write your review here" required></textarea>
     <button type="submit">Add Review</button>
   </form>
@@ -73,24 +87,31 @@
   <div class="reviews" id="reviewsList">
     <h3>Reviews:</h3>
   </div>
+
+  <!-- Back Button -->
+  <button class="back-button" onclick="goBack()">Back</button>
 </div>
 
 <script>
   function addReview(event) {
     event.preventDefault(); 
 
-    const name = document.getElementById("reviewerName").value;
+
     const review = document.getElementById("reviewContent").value;
 
     const reviewDiv = document.createElement("div");
     reviewDiv.classList.add("review");
 
-    reviewDiv.innerHTML = `<h4>${name}</h4><p>${review}</p>`;
+    reviewDiv.innerHTML = `<p>${review}</p>`;
 
     document.getElementById("reviewsList").appendChild(reviewDiv);
 
-    document.getElementById("reviewerName").value = '';
+   
     document.getElementById("reviewContent").value = '';
+  }
+
+  function goBack() {
+    window.location.href = "http://localhost:5173"; // Redirect to the homepage
   }
 </script>
 
