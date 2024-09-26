@@ -18,6 +18,8 @@ import CarOwnerCars from "./components/carOwnerCars";
 import Deletecarowner from "./components/Deletecarowner";
 import AdminDash from "./components/AdminDash";
 import UserBookingDetails from "./components/UserBookingDetails";
+import AvailableCars from "./components/AvailableCars";
+import BookingForm from "./components/BookingForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -87,6 +89,14 @@ function App() {
     {
       path: "/UserBookingDetails",
       element: <UserBookingDetails />,
+    },
+    {
+      path: "/availablecars",
+      element: <AvailableCars />,
+    },
+    {
+      path: "/bookingpage",
+      element: <BookingForm />,
     },
   ]);
 

@@ -2,13 +2,12 @@ import React from "react";
 import mainLogo from "../assets/mainLogo.png";
 import { useNavigate } from "react-router";
 
-
 const Usersidebar = ({ setCurrentView }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleLogoClick = () => {
-      navigate("/");
-    };
+  const handleLogoClick = () => {
+    navigate("/");
+  };
 
   return (
     <div className="flex fixed top-0 left-0 z-9">
@@ -54,9 +53,27 @@ const Usersidebar = ({ setCurrentView }) => {
             </button>
           </li>
           <li>
-            <button 
-            onClick={() => setCurrentView("Deleteaccount")}
-            className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
+            <button
+              onClick={() => (window.location.href = "/src/index.html")}
+              className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <svg
+                className="h-5 w-5 text-gray-300 mr-2"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* Reviews Icon */}
+                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
+              </svg>
+              <span className="text-base">Reviews</span>
+            </button>
+          </li>
+
+          <li>
+            <button
+              onClick={() => setCurrentView("Deleteaccount")}
+              className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
+            >
               <svg
                 className="h-5 w-5 text-gray-300 mr-2"
                 fill="currentColor"
@@ -71,9 +88,7 @@ const Usersidebar = ({ setCurrentView }) => {
         </ul>
         <hr className="border-gray-700 my-4" />
         <div className="mt-auto">
-          <button
-            className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
-          >
+          <button className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
             <img src="" alt="Profile" className="h-8 w-8 rounded-full mr-2" />
             <span className="text-base">Profile</span>
           </button>

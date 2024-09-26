@@ -151,7 +151,7 @@ export const addCar = async (req, res) => {
       description,
       images,
       currentLocation,
-      ownerId, // owner is the mediator or admin adding the car
+      ownerId, 
     });
 
 

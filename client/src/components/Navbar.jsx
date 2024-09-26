@@ -109,10 +109,10 @@ const Navbar = () => {
               CarOwner
           </div>
           <div
-            onClick={() => navigate("/calendar")}
+            onClick={() => navigate("/availablecars")}
             className="text-gray-300 hover:text-white cursor-pointer"
           >
-            Calendar
+            Available Cars
           </div>
         </div>
 

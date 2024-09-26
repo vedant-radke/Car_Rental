@@ -18,7 +18,6 @@ export const booked = async (req, res) => {
             rentalStartDate,
             rentalEndDate,
             totalPrice,
-            status,
             paymentStatus,
             paymentMethod,
             transactionId, 
@@ -49,7 +48,6 @@ export const booked = async (req, res) => {
             rentalStartDate,
             rentalEndDate,
             totalPrice,
-            status,
             paymentStatus,
             paymentMethod,
             transactionId,
@@ -72,5 +70,17 @@ export const booked = async (req, res) => {
         console.error(error);
     res.status(500).json({ message: "Server error. Unable to create booking." });
     }
+};
+
+
+//get available cars
+export const getAvailableCars = async (req, res) => {
+  try {
+    const availableCars = await Car.find({ status: 'available' });
+    res.json(availableCars);
+  } catch (error) {
+    console.error("Error fetching available cars:", error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 };
 

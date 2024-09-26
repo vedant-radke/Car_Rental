@@ -1,14 +1,15 @@
 import React from "react";
 import mainLogo from "../assets/mainLogo.png";
 import { useNavigate } from "react-router";
-
+import { MdDashboard, MdCarRental, MdDelete, MdPerson, MdOutlineGroup } from "react-icons/md"; // Material Design Icons
+import { FaUserEdit } from "react-icons/fa"; // FontAwesome Icon
 
 const Ownersidebar = ({ setClickedOption }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleLogoClick = () => {
-      navigate("/");
-    };
+  const handleLogoClick = () => {
+    navigate("/");
+  };
 
   return (
     <div className="flex fixed top-0 left-0 z-9">
@@ -17,7 +18,7 @@ const Ownersidebar = ({ setClickedOption }) => {
           onClick={handleLogoClick}
           alt="Your Company"
           src={mainLogo}
-          className="h-10"
+          className="h-10 cursor-pointer"
         />
         <hr className="border-gray-700 mb-4" />
         <ul className="flex flex-col space-y-2">
@@ -26,15 +27,8 @@ const Ownersidebar = ({ setClickedOption }) => {
               onClick={() => setClickedOption("dashboard")}
               className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              <svg
-                className="h-5 w-5 text-gray-300 mr-2"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Bookings Icon */}
-                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
-              </svg>
-              <span className="text-base">Dashboard(Admin)</span>
+              <MdDashboard className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-base">Admin Dashboard</span>
             </button>
           </li>
           <li>
@@ -42,15 +36,8 @@ const Ownersidebar = ({ setClickedOption }) => {
               onClick={() => setClickedOption("View All Cars")}
               className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              <svg
-                className="h-5 w-5 text-gray-300 mr-2"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Bookings Icon */}
-                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
-              </svg>
-              <span className="text-base">View All Cars</span>
+              <MdCarRental className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-base">Car Inventory</span>
             </button>
           </li>
           <li>
@@ -58,15 +45,8 @@ const Ownersidebar = ({ setClickedOption }) => {
               onClick={() => setClickedOption("addcar")}
               className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              <svg
-                className="h-5 w-5 text-gray-300 mr-2"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Add Car Icon */}
-                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
-              </svg>
-              <span className="text-base">Add Cars</span>
+              <MdCarRental className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-base">Add New Car </span>
             </button>
           </li>
           <li>
@@ -74,14 +54,7 @@ const Ownersidebar = ({ setClickedOption }) => {
               onClick={() => setClickedOption("removeCar")}
               className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              <svg
-                className="h-5 w-5 text-gray-300 mr-2"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Add Car Icon */}
-                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
-              </svg>
+              <MdDelete className="h-5 w-5 text-gray-300 mr-2" />
               <span className="text-base">Remove Car</span>
             </button>
           </li>
@@ -90,15 +63,8 @@ const Ownersidebar = ({ setClickedOption }) => {
               onClick={() => setClickedOption("changeRole")}
               className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              <svg
-                className="h-5 w-5 text-gray-300 mr-2"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Add Car Icon */}
-                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
-              </svg>
-              <span className="text-base">Change User Role</span>
+              <FaUserEdit className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-base">Manage User Role</span>
             </button>
           </li>
           <li>
@@ -106,15 +72,8 @@ const Ownersidebar = ({ setClickedOption }) => {
               onClick={() => setClickedOption("getAllUsers")}
               className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              <svg
-                className="h-5 w-5 text-gray-300 mr-2"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Add Car Icon */}
-                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
-              </svg>
-              <span className="text-base">Users List</span>
+              <MdOutlineGroup className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-base">All Users</span>
             </button>
           </li>
           <li>
@@ -122,15 +81,8 @@ const Ownersidebar = ({ setClickedOption }) => {
               onClick={() => setClickedOption("getUser")}
               className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              <svg
-                className="h-5 w-5 text-gray-300 mr-2"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Add Car Icon */}
-                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
-              </svg>
-              <span className="text-base">Get User</span>
+              <MdPerson className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-base">Find User</span>
             </button>
           </li>
           <li>
@@ -138,25 +90,16 @@ const Ownersidebar = ({ setClickedOption }) => {
               onClick={() => setClickedOption("deleteUser")}
               className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              <svg
-                className="h-5 w-5 text-gray-300 mr-2"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Add Car Icon */}
-                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
-              </svg>
-              <span className="text-base">Delete User</span>
+              <MdDelete className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-base">Delete User Account</span>
             </button>
           </li>
         </ul>
         <hr className="border-gray-700 my-4" />
         <div className="mt-auto">
-          <button
-            className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
-          >
-            <img src="" alt="Profile" className="h-8 w-8 rounded-full mr-2" />
-            <span className="text-base">Profile</span>
+          <button className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
+            {/* <img src="" alt="Profile" className="h-8 w-8 rounded-full mr-2" />
+            <span className="text-base">Profile</span> */}
           </button>
         </div>
       </div>

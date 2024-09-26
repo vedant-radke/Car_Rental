@@ -15,7 +15,7 @@ const AdminReport = () => {
   const [carOwnerBookings, setCarOwnerBookings] = useState([]);
   const [revenue, setRevenue] = useState(0);
   const [lastMonthRevenue, setLastMonthRevenue] = useState(0);
-  
+
   // Add state for car owner revenue
   const [carOwnerRevenue, setCarOwnerRevenue] = useState(0);
   const [lastMonthCarOwnerRevenue, setLastMonthCarOwnerRevenue] = useState(0);
@@ -41,12 +41,15 @@ const AdminReport = () => {
 
     const getOwnedCars = async () => {
       try {
-        const res = await axios.get(`${API_END_POINT_CarOwner}/getallownedcars`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${API_END_POINT_CarOwner}/getallownedcars`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
 
         setOwnedCars(res.data.cars);
       } catch (error) {
@@ -104,7 +107,7 @@ const AdminReport = () => {
               (booking.totalPrice * hours).toFixed(2)
             );
 
-            sum += bookingPrice;
+            sum += bookingPrice * 0.2;
 
             // last month bookings
             const rentalStartDate = new Date(booking.rentalStartDate);
@@ -112,7 +115,7 @@ const AdminReport = () => {
               rentalStartDate >= lastMonthStart &&
               rentalStartDate <= lastMonthEnd
             ) {
-              lastMonthSum += bookingPrice;
+              lastMonthSum += bookingPrice * 0.2;
             }
           }
         });
@@ -127,15 +130,15 @@ const AdminReport = () => {
 
     const getCarOwnerBookings = async () => {
       try {
-        const res = await axios.get(`${API_END_POINT_CarOwner}/CarOwnerBookingDetails`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        });
-
-        
-        
+        const res = await axios.get(
+          `${API_END_POINT_CarOwner}/CarOwnerBookingDetails`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
 
         let sum = 0;
         let lastMonthSum = 0;
@@ -163,7 +166,7 @@ const AdminReport = () => {
               (booking.totalPrice * hours).toFixed(2)
             );
 
-            sum += bookingPrice;
+            sum += bookingPrice * 0.9;
 
             // Calculate last month bookings
             const rentalStartDate = new Date(booking.rentalStartDate);
@@ -171,14 +174,14 @@ const AdminReport = () => {
               rentalStartDate >= lastMonthStart &&
               rentalStartDate <= lastMonthEnd
             ) {
-              lastMonthSum += bookingPrice;
+              lastMonthSum += bookingPrice * 0.9;
             }
           }
         });
 
         setCarOwnerRevenue(sum);
         setLastMonthCarOwnerRevenue(lastMonthSum);
-        setCarOwnerBookings(res.data.bookings)
+        setCarOwnerBookings(res.data.bookings);
       } catch (error) {
         console.error("Error fetching car owner bookings:", error.message);
       }
@@ -194,17 +197,20 @@ const AdminReport = () => {
   return (
     <div className="mx-auto rounded-lg p-8 ml-[-40%]">
       <h1 className="text-4xl font-bold text-gray-800 mb-6 border-b pb-4">
-      {userRole === "admin" ? "Admin Dashboard" : "Owner Dashboard"}
+        {userRole === "admin" ? "Admin Dashboard" : "Owner Dashboard"}
       </h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="p-6 bg-gray-100 rounded-lg shadow-md transition-transform transform hover:scale-105">
-          <h2 className="text-xl font-semibold text-gray-700">
-            Total Users Listed
-          </h2>
-          <p className="text-3xl font-bold text-gray-900">{users.length}</p>
-        </div>
-
+  
+      {/* Row for Total Users, Total Cars, and Total Bookings */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {userRole === "admin" && (
+          <div className="p-6 bg-gray-100 rounded-lg shadow-md transition-transform transform hover:scale-105">
+            <h2 className="text-xl font-semibold text-gray-700">
+              Total Users Listed
+            </h2>
+            <p className="text-3xl font-bold text-gray-900">{users.length}</p>
+          </div>
+        )}
+  
         <div className="p-6 bg-gray-100 rounded-lg shadow-md transition-transform transform hover:scale-105">
           <h2 className="text-xl font-semibold text-gray-700">
             Total Cars Listed
@@ -213,32 +219,41 @@ const AdminReport = () => {
             {userRole === "admin" ? cars.length : ownedCars.length}
           </p>
         </div>
-
+  
         <div className="p-6 bg-gray-100 rounded-lg shadow-md transition-transform transform hover:scale-105">
           <h2 className="text-xl font-semibold text-gray-700">
             Total Bookings
           </h2>
-          <p className="text-3xl font-bold text-gray-900">{userRole === "admin" ? bookings.length : carOwnerBookings.length}</p>
+          <p className="text-3xl font-bold text-gray-900">
+            {userRole === "admin" ? bookings.length : carOwnerBookings.length}
+          </p>
         </div>
-
-        <div className="p-6 bg-gray-100 rounded-lg shadow-md transition-transform transform hover:scale-105 sm:col-span-2 lg:col-span-3">
+      </div>
+  
+      {/* Row for Total Revenue and Last Month Revenue */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+        <div className="p-6 bg-gray-100 rounded-lg shadow-md transition-transform transform hover:scale-105">
           <h2 className="text-xl font-semibold text-gray-700">Total Revenue</h2>
           <p className="text-3xl font-bold text-gray-900">
             Rs. {userRole === "admin" ? revenue : carOwnerRevenue}
           </p>
         </div>
-
-        <div className="p-6 bg-gray-100 rounded-lg shadow-md transition-transform transform hover:scale-105 sm:col-span-2 lg:col-span-3">
+  
+        <div className="p-6 bg-gray-100 rounded-lg shadow-md transition-transform transform hover:scale-105">
           <h2 className="text-xl font-semibold text-gray-700">
             Last Month Revenue
           </h2>
           <p className="text-3xl font-bold text-gray-900">
-            Rs. {userRole === "admin" ? lastMonthRevenue : lastMonthCarOwnerRevenue}
+            Rs.{" "}
+            {userRole === "admin"
+              ? lastMonthRevenue
+              : lastMonthCarOwnerRevenue}
           </p>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default AdminReport;
