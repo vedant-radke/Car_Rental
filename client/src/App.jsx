@@ -13,6 +13,9 @@ import { setUser } from "./redux/userSlice"; // Adjust path as needed
 
 import CarForm from "./components/CarForm";
 import Ownerdashboard from "./components/Ownerdashboard";
+import OwnerBookingDetails from "./components/OwnerBookingDetails";
+import CarOwnerCars from "./components/carOwnerCars";
+import Deletecarowner from "./components/Deletecarowner";
 import AdminDash from "./components/AdminDash";
 
 function App() {
@@ -63,6 +66,18 @@ function App() {
     {
       path: "/Ownerdashboard",
       element: <Ownerdashboard />,
+    },
+    {
+      path: "/OwnerBookingDetails",
+      element: <OwnerBookingDetails />,
+    },
+    {
+      path: "/CarOwnerCars",
+      element: <CarOwnerCars />,
+    },
+    {
+      path: "/Deletecarowner",
+      element: <Deletecarowner />,
     },
     {
       path: "/admindash",
