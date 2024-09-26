@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import { API_END_POINT_admin } from '../utils/constants'; // Replace with your API endpoint
 
@@ -8,59 +7,69 @@ const ChangeRole = () => {
   const [newRole, setNewRole] = useState('');
   const [currentRole, setCurrentRole] = useState('');
 
-  // Fetch current role based on email
-  const fetchCurrentRole = async () => {
+  // Fetch current role based on email using XMLHttpRequest
+  const fetchCurrentRole = () => {
     if (!email) {
-      toast.error("Email is required");
+      toast.error('Email is required');
       return;
     }
 
-    try {
-      const response = await axios.get(`${API_END_POINT_admin}/getuser`, {
-        params: { email },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `${API_END_POINT_admin}/getuser?email=${email}`, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.withCredentials = true; // For sending cookies
 
-      const user = response.data;
-      if (user && user.role) {
-        setCurrentRole(user.role);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const user = JSON.parse(xhr.responseText);
+        if (user && user.role) {
+          setCurrentRole(user.role);
+        } else {
+          toast.error('User not found or no role assigned');
+          setCurrentRole('');
+        }
       } else {
-        toast.error("User not found or no role assigned");
-        setCurrentRole('');
+        const error = JSON.parse(xhr.responseText);
+        toast.error(error.message || 'Error fetching user role');
       }
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Error fetching user role');
-    }
+    };
+
+    xhr.onerror = function () {
+      toast.error('Network error or server is down');
+    };
+
+    xhr.send();
   };
 
-  // Handle role change
-  const handleChangeRole = async () => {
+  // Handle role change using XMLHttpRequest
+  const handleChangeRole = () => {
     if (!email || !newRole) {
       toast.error('Email and new role are required');
       return;
     }
 
-    try {
-      const response = await axios.put(`${API_END_POINT_admin}/change-role`, {
-        email,
-        newRole,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', `${API_END_POINT_admin}/change-role`, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.withCredentials = true;
 
-      if (response.data.message) {
-        toast.success(response.data.message);
-        fetchCurrentRole(); // Fetch the updated role
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        toast.success(response.message);
+        fetchCurrentRole(); // Fetch the updated role after change
+      } else {
+        const error = JSON.parse(xhr.responseText);
+        toast.error(error.message || 'Error changing user role');
       }
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Error changing user role');
-    }
+    };
+
+    xhr.onerror = function () {
+      toast.error('Network error or server is down');
+    };
+
+    const data = JSON.stringify({ email, newRole });
+    xhr.send(data);
   };
 
   return (
@@ -69,9 +78,7 @@ const ChangeRole = () => {
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            User Email:
-          </label>
+          <label className="block text-sm font-medium text-gray-700">User Email:</label>
           <input
             type="email"
             value={email}
@@ -98,9 +105,7 @@ const ChangeRole = () => {
         )}
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">
-            New Role:
-          </label>
+          <label className="block text-sm font-medium text-gray-700">New Role:</label>
           <select
             value={newRole}
             onChange={(e) => setNewRole(e.target.value)}

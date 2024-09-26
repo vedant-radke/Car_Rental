@@ -32,7 +32,6 @@ export const booked = async (req, res) => {
           }
 
           const car = await Car.findOne({ regNumber });
-        //   console.log(car._id);
 
           if (!car) {
             return res.status(404).json({ message: "Car not found." });
@@ -56,7 +55,6 @@ export const booked = async (req, res) => {
           });
 
           await newBooking.save();
-          console.log("Booking added successfully");
 
           return res.status(201).json({
             message: 'booking added successfully'
