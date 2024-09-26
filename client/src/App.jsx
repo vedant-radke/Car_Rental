@@ -16,6 +16,7 @@ import Ownerdashboard from "./components/Ownerdashboard";
 import OwnerBookingDetails from "./components/OwnerBookingDetails";
 import CarOwnerCars from "./components/carOwnerCars";
 import Deletecarowner from "./components/Deletecarowner";
+import AdminDash from "./components/AdminDash";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +78,10 @@ function App() {
     {
       path: "/Deletecarowner",
       element: <Deletecarowner />,
+    },
+    {
+      path: "/admindash",
+      element: <AdminDash />,
     },
   ]);
 
