@@ -1,22 +1,31 @@
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
+import React, { useState } from "react";
 import UserProfile from "./UserProfile";
 import Usersidebar from "./Usersidebar";
-// import UserInfo from "./UserInfo";
+import UserBookingDetails from "./UserBookingDetails";
+import DeactiveUserAccount from "./DeactiveUserAccount";
 
 const UserDash = () => {
+  const [currentView, setCurrentView] = useState("dashboard"); // Default view
+
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case "dashboard":
+        return <UserProfile />;
+      case "UserBookingDetails":
+        return <UserBookingDetails />;     
+      case "Deleteaccount":
+        return <DeactiveUserAccount />;     
+      default:
+        return <UserProfile />;
+    }
+  };
+
   return (
-    <div>
-      
-      <div>
-        {/* <Sidebar/> */}
-        <Usersidebar />
-        <UserProfile/>
+    <div className="flex">
+      <Usersidebar setCurrentView={setCurrentView} /> {/* Pass the setter function */}
+      <div className="flex-grow p-4">
+        {renderCurrentView()} {/* Render the current view based on state */}
       </div>
-      {/* <div>
-        
-      </div> */}
-      
     </div>
   );
 };

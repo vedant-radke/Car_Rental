@@ -17,6 +17,7 @@ import OwnerBookingDetails from "./components/OwnerBookingDetails";
 import CarOwnerCars from "./components/carOwnerCars";
 import Deletecarowner from "./components/Deletecarowner";
 import AdminDash from "./components/AdminDash";
+import UserBookingDetails from "./components/UserBookingDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -82,6 +83,10 @@ function App() {
     {
       path: "/admindash",
       element: <AdminDash />,
+    },
+    {
+      path: "/UserBookingDetails",
+      element: <UserBookingDetails />,
     },
   ]);
 
