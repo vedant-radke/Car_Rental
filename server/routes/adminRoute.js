@@ -1,6 +1,6 @@
 import express from "express"
 import { authMiddleware } from "../middlewares/authMiddleware.js";
-import { addCar, changeUserRole, deleteCar, deleteUser, getAllCars, getAllUsers, getCar, getUser } from "../controllers/adminController.js";
+import { addCar, changeUserRole, deleteCar, deleteUser, getAllBookings, getAllCars, getAllUsers, getCar, getUser } from "../controllers/adminController.js";
 import checkRoleMiddleware from "../middlewares/checkRoleMiddleware.js";
 
 
@@ -17,6 +17,7 @@ router.get('/getallcars', authMiddleware,checkRoleMiddleware(["admin"]), getAllC
 router.get('/getcar', authMiddleware,checkRoleMiddleware(["admin"]), getCar);
 router.post('/addcar', authMiddleware,checkRoleMiddleware(["admin"]), addCar);
 router.delete('/deletecar', authMiddleware,checkRoleMiddleware(["admin"]), deleteCar);
+router.get('/allbookings', authMiddleware,checkRoleMiddleware(["admin"]), getAllBookings);
 
 
 export default router;

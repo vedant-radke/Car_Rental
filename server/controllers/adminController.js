@@ -1,3 +1,4 @@
+import { Booking } from "../models/bookingModel.js";
 import { Car } from "../models/carModel.js";
 import { User } from "../models/UserModel.js";
 
@@ -189,6 +190,19 @@ export const deleteCar = async (req, res) => {
     res.status(500).json({ message: "Server error. Unable to delete the car." });
   }
 };
+
+// Get all bookings:
+export const getAllBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find();
+    res.status(200).json(bookings); 
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error. Unable to fetch bookings." });
+  }
+};
+
+
 
 
 // View Reports:
