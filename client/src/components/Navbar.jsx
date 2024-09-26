@@ -71,7 +71,6 @@ const Navbar = () => {
               onClick={() => {
                 if (!user) {
                   localStorage.setItem("redirectPath", "/admindash");
-                  // navigate("/login");
                   handleLogin()
         
                 }else{

@@ -48,14 +48,24 @@ export const Login = () => {
       if (res.data.success) {
         toast.success(successMessage);
         if (isLogin) {
-          // console.log(">>>>",res.data.user);
-          
-          // localStorage.setItem("token", res.data.user.token);
+         
           localStorage.setItem("user", JSON.stringify(res.data.user));
-          // localStorage.setItem("tokenExpiry", res.data.user.tokenExpiry);
           dispatch(setUser(res.data.user));
           const redirectPath = localStorage.getItem("redirectPath");
-          navigate(redirectPath || "/");
+          if(redirectPath==="/admindash" && res.data.user.role != "admin"){
+            navigate("/");
+            toast.error("Only admin can access")
+          }else if(redirectPath==="/Ownerdashboard" && res.data.user.role != "carOwner"){
+            navigate("/");
+            toast.error("Only carOwner can access")
+          }else if(redirectPath && res.data.user.role == "admin"){
+            navigate(redirectPath);
+          }else{
+            setIsLogin(true);
+            navigate("/")
+          }
+         
+          
         } else {
           setIsLogin(true); 
         }

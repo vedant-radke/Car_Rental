@@ -2,26 +2,27 @@ import { User } from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+// Password Validation Regex
+const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/;
+
 // Sign-Up (Register)
 export const Register = async (req, res) => {
   try {
     const { fullname, email, password, mobileNo, role } = req.body;
-    
 
     // Validate required fields
     if (!fullname || !email || !password || !role || !mobileNo) {
-
       return res.status(400).json({
         message: "Please provide all required fields",
         success: false,
       });
     }
 
-    // Check for valid role
-    const validRoles = ["user", "owner"];
-    if (role === "admin") {
-      return res.status(403).json({
-        message: "Only admins can create users with admin role.",
+    // Validate password format
+    if (!passwordPattern.test(password)) {
+      return res.status(400).json({
+        message:
+          "Password must be at least 4 characters long and contain at least one digit, one lowercase, and one uppercase letter.",
         success: false,
       });
     }
@@ -99,12 +100,15 @@ export const Login = async (req, res) => {
 
     const decoded = jwt.decode(token);
     const tokenExpiry = decoded.exp;
-   
-    
-    
 
-    return res.status(200)
-      .cookie("token", token, { httpOnly: true })
+    return res
+      .status(200)
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // set secure only in production
+        sameSite: "Strict",
+        maxAge: 3600000, // 1 hour
+      })
       .json({
         message: `Welcome back, ${user.fullname}!`,
         success: true,
@@ -112,9 +116,9 @@ export const Login = async (req, res) => {
           id: user._id,
           fullname: user.fullname,
           email: user.email,
-          role: user.role, 
+          role: user.role,
           token: token,
-          tokenExpiry : tokenExpiry,
+          tokenExpiry: tokenExpiry,
         },
       });
   } catch (error) {
