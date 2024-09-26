@@ -39,7 +39,7 @@ const Ownersidebar = ({ setCurrentView }) => {
           </li>
           <li>
             <button
-              onClick={() => setCurrentView("bookings")}
+              onClick={() => setCurrentView("OwnerBookingDetails")}
               className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
               <svg
@@ -51,6 +51,22 @@ const Ownersidebar = ({ setCurrentView }) => {
                 <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
               </svg>
               <span className="text-base">Bookings</span>
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => setCurrentView("CarOwnerCars")}
+              className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <svg
+                className="h-5 w-5 text-gray-300 mr-2"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* Bookings Icon */}
+                <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" />
+              </svg>
+              <span className="text-base">OwnedCars</span>
             </button>
           </li>
           <li>
@@ -70,7 +86,9 @@ const Ownersidebar = ({ setCurrentView }) => {
             </button>
           </li>
           <li>
-            <button className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
+            <button 
+            onClick={() => setCurrentView("Deletecarowner")}
+            className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors">
               <svg
                 className="h-5 w-5 text-gray-300 mr-2"
                 fill="currentColor"

@@ -38,6 +38,11 @@ export const booked = async (req, res) => {
             return res.status(404).json({ message: "Car not found." });
         }
 
+         // Check if the car is available for booking
+    if (car.status === "not available" || car.status === "in service") {
+      return res.status(400).json({ message: `Car is currently ${car.status}. Unable to book at this time.` });
+    }
+
           const newBooking = new Booking({
             user: customerId,
             car: car._id,
@@ -58,6 +63,9 @@ export const booked = async (req, res) => {
           await newBooking.save();
           console.log("Booking added successfully");
 
+          car.status = "in service";
+          await car.save();
+
           return res.status(201).json({
             message: 'booking added successfully'
           });
@@ -67,3 +75,4 @@ export const booked = async (req, res) => {
     res.status(500).json({ message: "Server error. Unable to create booking." });
     }
 };
+

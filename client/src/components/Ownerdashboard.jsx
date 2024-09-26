@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Ownersidebar from "./Ownersidebar";
 import Dashboard from "./Dashboard"; // Create this component
 import CarForm from "./CarForm"; // Your CarForm component
-import Bookings from "./Bookings"; // Create this component
+import OwnerBookingDetails from "./OwnerBookingDetails"; // Create this component
+import CarOwnerCars from "./carOwnerCars";
+import Deletecarowner from "./Deletecarowner";
 
 const Ownerdashboard = () => {
   const [currentView, setCurrentView] = useState("dashboard"); // Default view
@@ -13,8 +15,12 @@ const Ownerdashboard = () => {
         return <Dashboard />;
       case "addcar":
         return <CarForm />;
-      case "bookings":
-        return <Bookings />;
+      case "OwnerBookingDetails":
+        return <OwnerBookingDetails />;
+      case "CarOwnerCars":
+        return <CarOwnerCars />;
+      case "Deletecarowner":
+        return <Deletecarowner />;
       default:
         return <Dashboard />;
     }
