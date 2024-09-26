@@ -5,6 +5,7 @@ import CarForm from "./CarForm"; // Your CarForm component
 import OwnerBookingDetails from "./OwnerBookingDetails"; // Create this component
 import CarOwnerCars from "./carOwnerCars";
 import Deletecarowner from "./Deletecarowner";
+import AdminReport from "./AdminReport";
 
 const Ownerdashboard = () => {
   const [currentView, setCurrentView] = useState("dashboard"); // Default view
@@ -12,7 +13,7 @@ const Ownerdashboard = () => {
   const renderCurrentView = () => {
     switch (currentView) {
       case "dashboard":
-        return <Dashboard />;
+        return <AdminReport />;
       case "addcar":
         return <CarForm />;
       case "OwnerBookingDetails":
@@ -29,7 +30,7 @@ const Ownerdashboard = () => {
   return (
     <div className="flex">
       <Ownersidebar setCurrentView={setCurrentView} /> {/* Pass the setter function */}
-      <div className="flex-grow p-4">
+      <div className="flex-grow p-4 ml-[40%]">
         {renderCurrentView()} {/* Render the current view based on state */}
       </div>
     </div>
