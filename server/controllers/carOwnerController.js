@@ -229,6 +229,10 @@ export const deletecarownerbooking = async (req, res) => {
           return res.status(404).json({ message: "Booking not found." });
       }
 
+      const carId = deletedBooking.car; // Assuming 'car' is a reference to the car's ID in the Booking schema
+    console.log(carId);
+    await Car.findByIdAndUpdate(carId, { status: "available" });
+
       res.status(200).json({ message: "Booking deleted successfully." });
   } catch (error) {
       console.error(error);
