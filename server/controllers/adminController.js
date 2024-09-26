@@ -16,13 +16,13 @@ export const getAllUsers = async (req, res) => {
 // getUser: Fetch a user by email
 export const getUser = async (req, res) => {
   try {
-    const { email } = req.query; // Using query params to fetch the email
+    const { email } = req.query;
 
     if (!email) {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    const user = await User.findOne({ email }).select("-password"); // Exclude password from the result
+    const user = await User.findOne({ email }).select("-password"); 
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

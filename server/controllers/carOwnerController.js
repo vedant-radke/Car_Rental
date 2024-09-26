@@ -53,7 +53,6 @@ export const getAllOwnedCars = async (req, res) => {
 // addCar(carDetails): Allow the owner to add new cars to the platform.
 export const addCar = async (req, res) => {
   try {
-    console.log("Request body:", req.body);
 
     const {
       brand,
@@ -105,7 +104,6 @@ export const addCar = async (req, res) => {
 
 
     await newCar.save();
-    console.log("Car saved successfully");
 
     return res.status(201).json({
       message: 'Car added successfully',

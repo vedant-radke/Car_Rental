@@ -11,10 +11,6 @@ export const Register = async (req, res) => {
     // Validate required fields
     if (!fullname || !email || !password || !role || !mobileNo) {
 
-      console.log("role ",role);
-      console.log("mobileNo ",mobileNo);
-      
-      
       return res.status(400).json({
         message: "Please provide all required fields",
         success: false,
@@ -102,7 +98,6 @@ export const Login = async (req, res) => {
     });
 
     const decoded = jwt.decode(token);
-    // console.log(decoded);
     const tokenExpiry = decoded.exp;
    
     
