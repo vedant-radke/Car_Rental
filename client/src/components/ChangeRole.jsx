@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { API_END_POINT_admin } from '../utils/constants'; // Replace with your API endpoint
+import { API_END_POINT_admin } from '../utils/constants'; 
 
 const ChangeRole = () => {
   const [email, setEmail] = useState('');
   const [newRole, setNewRole] = useState('');
   const [currentRole, setCurrentRole] = useState('');
 
-  // Fetch current role based on email using XMLHttpRequest
+  
   const fetchCurrentRole = () => {
     if (!email) {
       toast.error('Email is required');
@@ -17,7 +17,7 @@ const ChangeRole = () => {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `${API_END_POINT_admin}/getuser?email=${email}`, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.withCredentials = true; // For sending cookies
+    xhr.withCredentials = true; // to send cookie,
 
     xhr.onload = function () {
       if (xhr.status === 200) {

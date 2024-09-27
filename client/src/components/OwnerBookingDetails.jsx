@@ -52,7 +52,7 @@ const OwnerBookingDetails = () => {
     }, []); // Only run once on component mount
 
     return (
-        <div className="flex flex-col items-center min-h-screen bg-gray-100 ml-[16%]">
+        <div className="flex flex-col items-center min-h-screen bg-gray-100 ml-[-45%]">
             <h1 className="text-3xl font-bold mb-4">Car Owner Booking Details</h1>
 
             {/* Show error if any */}

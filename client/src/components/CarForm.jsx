@@ -83,7 +83,7 @@ console.log(res.data.message);
   return (
     <form
     onSubmit={handleSubmit}
-    className="max-w-2xl mx-auto p-6 bg-blue-400 shadow-md rounded-md space-y-6"
+    className="max-w-2xl mx-auto p-6 bg-blue-400 shadow-md rounded-md space-y-6 ml-[-10%]"
   >
     <h2 className="text-2xl font-semibold text-gray-700">Add a New Car</h2>
 

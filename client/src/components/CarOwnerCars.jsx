@@ -67,7 +67,7 @@ const CarOwnerCars = () => {
   };
 
   return (
-    <div className="ml-[16%]">
+    <div className="ml-[-40%]">
       <h1 className="text-2xl font-bold mb-4">Owned Cars</h1>
       {message && <p className="text-red-500">{message}</p>}
       {cars.length > 0 ? (
