@@ -7,17 +7,17 @@ const GetAllCars = () => {
 
   useEffect(() => {
     const fetchCars = async () => {
-      const xhr = new XMLHttpRequest(); // Create new XMLHttpRequest object
+      const xhr = new XMLHttpRequest(); 
 
-      xhr.open('GET', 'http://localhost:8000/api/admin/getallcars', true); // Initialize GET request
-      xhr.setRequestHeader('Content-Type', 'application/json'); // Set content type
-      xhr.withCredentials = true; // Send cookies/credentials with request
+      xhr.open('GET', 'http://localhost:8000/api/admin/getallcars', true); 
+      xhr.setRequestHeader('Content-Type', 'application/json'); 
+      xhr.withCredentials = true; 
 
       xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) { // When request is complete
-          if (xhr.status === 200) { // Check if the status is 200 (success)
+        if (xhr.readyState === 4) { 
+          if (xhr.status === 200) { 
             try {
-              const responseData = JSON.parse(xhr.responseText); // Parse JSON response
+              const responseData = JSON.parse(xhr.responseText); 
               setCars(responseData); // Update state with cars data
             } catch (err) {
               setError('Error parsing response data'); // Handle parsing error
