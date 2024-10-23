@@ -1,2 +1,2 @@
-# Frontend - npm run dev
-# backend - npm start
+ Frontend - `npm run dev`  
+ backend - `npm start`
